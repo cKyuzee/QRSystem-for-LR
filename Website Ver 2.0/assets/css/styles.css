@@ -1,0 +1,389 @@
+div.col-md-12.icon-holder {
+  width: 25%;
+}
+
+div.col-md-12.rice-col {
+  width: 25%;
+  padding: 10px;
+}
+
+div.col-md-12.rice-col:hover, div.col-md-12.climate-col:hover {
+  background-color: rgba(189, 215, 185, 0.6);
+  border-radius: 5px;
+  font-weight: 800;
+}
+
+div.col-md-12.climate-col {
+  width: 25%;
+  padding: 10px;
+}
+
+div.col-md-12.soil-col {
+  width: 25%;
+}
+
+div.row.rice-row, div.row.climate-row {
+  text-align: center;
+}
+
+div.row.footer {
+  background-color: #262626;
+  color: white;
+  padding: 20px 90px;
+}
+
+div.row.footer-about {
+  background-color: #262626;
+  color: white;
+  padding: 15px 90px;
+}
+
+div.col-md-10.col-md-offset-1.row2-body {
+  background-color: #B7DDB0;
+}
+
+body {
+  margin: 0px 10%;
+  background-color: #DBDDD0;
+}
+
+div#body-row2.row {
+  background-color: white;
+}
+
+div#forecast-holder.col-md-12 {
+  text-align: center;
+}
+
+div#menu-holder.col-md-12 {
+  color: white;
+  background-color: #3F936F;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+div.col-md-12.logo-holder {
+  background: #378161;
+  background: -webkit-linear-gradient(left, #378161 0%, #47a67d 18%, #378161 100%);
+  background: linear-gradient(to right, #378161 0%, #47a67d 18%, #378161 100%);
+}
+
+#menu-holder ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  float: right;
+}
+
+#menu-holder li {
+  float: left;
+}
+
+#menu-holder ul li a {
+  display: block;
+  color: white;
+  font-family: 'Roboto';
+  text-align: center;
+  padding: 12px 13px;
+  text-decoration: none;
+}
+
+#menu-holder a:hover {
+  background-color: white;
+  color: #3F936F;
+  text-decoration: none;
+}
+
+#menu-holder a:active {
+  text-decoration: none;
+}
+
+#menu-holder a:visited {
+  text-decoration: none;
+}
+
+div#body-row-forecast.row {
+  padding: 30px 100px;
+  font-family: 'Roboto';
+}
+
+div.col-md-12.data-title-holder p {
+  margin: 0;
+  font-weight: 800;
+  color: white;
+}
+
+div.col-md-12.data-title-holder {
+  background-color: #3F936F;
+  padding: 10px 20px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 30px;
+}
+
+div.row.rice-row {
+  margin-bottom: 20px;
+}
+
+div#div-grey.row {
+  padding: 10px;
+  background-color: grey;
+}
+
+div.row.footer a {
+  color: white;
+  text-decoration: none;
+}
+
+div.row.footer a:hover {
+  text-decoration: underline;
+}
+
+div.col-md-12.modal-bodyImage {
+  width: 25%;
+}
+
+div.col-lg-12.col-md-12.modal-bodyText {
+  width: 75%;
+}
+
+#modal-signIn i {
+  font-size: 70px;
+}
+
+div.modal-header {
+  text-align: center;
+  background-color: #3F936F;
+  color: white;
+}
+
+div.modal-body input, div.modal-body button {
+  padding: 7px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+#modal-signIn .modal-body, #modal-signUp .modal-body {
+  padding: 15px 130px;
+}
+
+div#holder-errorIcon, div#bodyEror {
+  text-align: center;
+}
+
+#modal-errorViewData .modal-header {
+  background-color: #D52F2E;
+}
+
+#modal-errorViewData .modal-body {
+  padding: 20px 70px;
+}
+
+div.row.modal-bodyRow {
+  margin: 10px 0px;
+}
+
+div.row.modal-bodyRow #signIn-completeMessage {
+  margin: 10px 0px;
+  color: red;
+}
+
+div.row.modal-bodyRow #signUp-completeMessage {
+  margin-top: 10px;
+  color: red;
+}
+
+div#modal-bodySignInHolder.row.modal-bodyRow {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+div#modal-bodySignUpHolder.row.modal-bodyRow {
+  margin-top: 10px;
+}
+
+div#div-linkHolder.row {
+  text-align: center;
+  display: block;
+}
+
+div#div-linkHolder.row p {
+  display: block;
+}
+
+div#body-column.col-md-12 {
+  box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+div.col-md-12.developer-picture {
+  width: 25%;
+  text-align: center;
+}
+
+div.col-md-12.developer-description {
+  width: 75%;
+}
+
+div.row.developer-row {
+  margin-bottom: 20px;
+}
+
+p.developer-name {
+  font-size: large;
+}
+
+div.dataViews-menu.col-md-12 {
+  margin-bottom: 10px;
+  text-align: right;
+}
+
+div.dataViews-menu.col-md-12 select {
+  padding: 10px;
+  margin-right: 3px;
+  border-color: white;
+  border-bottom: 3px green solid;
+}
+
+div.dataViews-menu.col-md-12 input {
+  padding: 9px;
+  margin-right: 3px;
+  box-shadow: none;
+  border: none;
+  border-bottom: 3px green solid;
+}
+
+div.dataViews-menu.col-md-12 button, #btnExportData {
+  padding: 9px 20px;
+  margin-right: 3px;
+  box-shadow: none;
+  border: solid 1px white;
+  border-radius: 5px;
+  background-color: #3F936F;
+  color: white;
+  font-size: small;
+}
+
+div.dataViews-menu.col-md-12 button:hover, #btnExportData:hover {
+  background-color: #50cc97;
+  color: white;
+}
+
+input#search-input {
+  padding: 5px 10px;
+  border-radius: 5px;
+  width: 30%;
+}
+
+div.row.search-holder {
+  text-align: center;
+}
+
+div.col-md-12.search-holder {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+div.col-md-12.pagination {
+  text-align: center;
+}
+
+tbody tr:hover {
+  background-color: rgba(128, 128, 128, 0.16);
+}
+
+div.row.monthly-graph-data {
+  margin-bottom: 20px;
+}
+
+span#filter-label.label.label-default {
+  background: none;
+  color: black;
+  font-family: 'Roboto';
+  font-size: small;
+  padding: 5px;
+}
+
+div#chart, div#bargraph {
+  width: 100%;
+  margin-left: -30px;
+  margin-bottom: 20px;
+}
+
+div#donutGraph {
+  width: 100%
+}
+
+div#graphDetails {
+  margin-bottom: 10px;
+  padding: 0 50px;
+}
+
+#tableDetailedData tbody {
+  display: block;
+  height: 350px;
+  overflow-y: scroll;
+}
+
+#tableDetailedData thead, #tableDetailedData tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+#tableDetailedData thead {
+  width: calc(100% - 1.2em)
+}
+
+#tableDetailedData thead :nth-child(1),
+#tableDetailedData tbody tr :nth-child(1) {
+  width: 7%;
+}
+
+#tableDetailedData thead :nth-child(2),
+#tableDetailedData tbody tr :nth-child(2) {
+  width: 25%
+}
+
+#tableDetailedData thead :nth-child(4),
+#tableDetailedData tbody tr :nth-child(4) {
+  width: 20%;
+}
+
+#tableDetailedData thead :nth-child(5),
+#tableDetailedData tbody tr :nth-child(5),
+#tableDetailedData thead :nth-child(6),
+#tableDetailedData tbody tr :nth-child(6) {
+  width: 13%;
+}
+
+#tableDetailedData td {
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+#modal-variableData .modal-body{
+  padding: 3% 8%;
+}
+
+#category-dataTable tbody {
+  display: block;
+  height: 250px;
+  overflow-y: scroll;
+}
+
+#category-dataTable thead, #category-dataTable tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+#category-dataTable thead {
+  width: calc(100% - 1.2em)
+}
+
+#category-dataTable thead :nth-child(1),
+#category-dataTable tbody tr :nth-child(1) {
+  width: 10%;
+}
