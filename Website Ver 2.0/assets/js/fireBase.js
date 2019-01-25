@@ -2,15 +2,15 @@ var app_firebase = {};
 
 (function(){
     // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyCtqD2QnfWN1zk-XdN9QcS59vk1MzJcXKc",
-      authDomain: "rice-yield-forecast.firebaseapp.com",
-      databaseURL: "https://rice-yield-forecast.firebaseio.com",
-      projectId: "rice-yield-forecast",
-      storageBucket: "rice-yield-forecast.appspot.com",
-      messagingSenderId: "79366616240"
-    };
-    firebase.initializeApp(config);
+      var config = {
+        apiKey: "AIzaSyB2_7M04xa-U7Rem0awGnb7mAHnACdD24A",
+        authDomain: "qrsystem-for-lr-96084.firebaseapp.com",
+        databaseURL: "https://qrsystem-for-lr-96084.firebaseio.com",
+        projectId: "qrsystem-for-lr-96084",
+        storageBucket: "qrsystem-for-lr-96084.appspot.com",
+        messagingSenderId: "792275104984"
+      };
+      firebase.initializeApp(config);
 
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
     .then(function() {
