@@ -42,6 +42,8 @@ function showRecoverPasswordModal() {
 }
 
 function showSignUpModal() {
+  getColleges();
+
   $('#modal-signUp').on('hidden.bs.modal', function (e) {
     $(this)
       .find("input")
@@ -53,6 +55,8 @@ function showSignUpModal() {
 }
 
 function showVerifyEmailModal() {
+
+  /* Temporarily remove these
   $('#modal-verifyEmail').on('hidden.bs.modal', function (e) {
     $(this)
       .find("input")
@@ -61,6 +65,9 @@ function showVerifyEmailModal() {
          .end()
   }).modal('show');
   $('#verifyEmail-message').css('display', 'none');
+
+  */
+  getColleges();
 }
 
 function showSignUpVerifyEmailSentModal() {
@@ -82,6 +89,7 @@ function showAnalytics(bool) {
 }
 
 function showUnverified(bool) {
+
     $('#unverifiedli').css('display', (bool)? 'block' : 'none');
 }
 
@@ -192,14 +200,128 @@ function checkForNumbers(input){
   }
 }
 
-function performSignUp() {
+function getColleges()
+{
+  var database = firebase.database();
+  var db = database.ref('colleges');
+  db.on('value', getData, errData);
+}
+
+
+function getData(data)
+{
+  // bug currently the course appears after some seconds delay
+  // try to find a way to pre-load before modal opens?
+  var colleges = data.val();
+  var keys = Object.keys(colleges);
+  var selectCollege = document.getElementById('selectCollege');
+  selectCollege.setAttribute("onChange", "selectCollegeOption(this)");
+  selectCollege.innerHTML = "";
+
+  for(var i = 0; i < keys.length; i++)  // gets college names initial populate of select
+  {
+    var option = keys[i];
+    var o = document.createElement('option');
+    o.setAttribute("data-abbr", colleges[keys[i]]["abbr"]);
+    o.innerHTML = option;
+    selectCollege.appendChild(o);
+  }
+
+  var keys2 = Object.keys(colleges[keys[0]]["programs"]);
+  var selectCourse = document.getElementById('selectCourse');
+  selectCourse.innerHTML = "";
+  for(var i = 0; i < keys2.length; i++)
+  {
+    var option = colleges[keys[0]]["programs"][keys2[i]];
+    var o = document.createElement('option');
+    o.innerHTML = option;
+    selectCourse.appendChild(o);
+  }
+  // abbreviation code snip
+  // var colleges = data.val();
+  // var keys = Object.keys(colleges);
+  // var option = new Array();
+  // var selectCollege = document.getElementById('selectCollege');
+  // for(var i = 0; i < keys.length; i++)  // gets college abbrevation
+  // {
+  //   var option = colleges[keys[i]]["abbr"];
+  //
+  // }
+}
+
+function selectCollegeOption(x)  // refreshes the courses below
+{
+  for(var i = 0; i < x.childNodes.length; i++)
+  {
+    if(x.childNodes[i].innerHTML == x.value)
+    {
+      var abbreviation = x.childNodes[i].dataset.abbr;
+      var database = firebase.database();
+      var db = database.ref('colleges');
+      db.on('value', function(data)
+      {
+         var keys = Object.keys(data.val());
+        console.log(data);
+        for(var i = 0; i < keys.length; i++)
+        {
+          var dbKey = data.val()[keys[i]]["abbr"];
+          if(dbKey == abbreviation)
+          {
+            var courses = data.val()[keys[i]]['programs'];
+            var keys2 = Object.keys(courses);
+            console.log(keys2);
+            var selectCourse = document.getElementById('selectCourse');
+            selectCourse.innerHTML = "";
+            for(var i = 0; i < keys2.length; i++)
+            {
+              var option = courses[keys2[i]];
+              var o = document.createElement('option');
+              o.innerHTML = option;
+              selectCourse.appendChild(o);
+            }
+            break;
+          }
+        }
+      });
+      break;
+    }
+  }
+
+}
+function errData(err)
+{
+  console.console.log('Error!');
+  console.log(err);
+}
+
+function performSignUp()
+{
+  var attended = false;
+  var college = $('#signUp-college').val();
+  var course = $('#signUp-course').val();
+  var email = $('#signUp-email').val();
   var firstName = $('#signUp-firstName').val();
   var middleName = $('#signUp-middleName').val();
   var lastName = $('#signUp-lastName').val();
-  var email = $('#signUp-email').val();
   var studentNumber = $('#signUp-studentNumber').val();
+  var yearLevel = $('#signUp-yearLevel').val();
   var password = $('#signUp-password').val();
   var confirmPassword = $('#signUp-confirmPassword').val();
+
+  /*
+  var attended: false
+  college: ""
+  course: ""
+  email: ""
+  name{
+    firstName: ""
+    lastName: ""
+    middleName: ""
+    suffix: ""
+  }
+  studentNumber:""
+  yearLevel:""
+  */
 
 // Middlename should be optional? (removed && middleName)
   if(firstName && lastName && email && password && confirmPassword){
@@ -234,11 +356,16 @@ function performSignUp() {
             sendEmailVerification();
             showSignUpVerifyEmailSentModal();
 
-            app_firebase.database().ref('users/' + user.uid).set({
+            app_firebase.database().ref('USER/' + user.uid).set({
+                attended: attended,
+                college: college,
+                course: course,
                 email: email,
-                firstName: firstName,
-                middleName: middleName,
-                lastName: lastName,
+                name:{
+                  firstName: firstName,
+                  middleName: middleName,
+                  lastName: lastName,
+                },
                 studentNumber: studentNumber,
                 userType: 'viewer'
             });
