@@ -197,6 +197,7 @@ function performSignUp() {
   var middleName = $('#signUp-middleName').val();
   var lastName = $('#signUp-lastName').val();
   var email = $('#signUp-email').val();
+  var studentNumber = $('#signUp-studentNumber').val();
   var password = $('#signUp-password').val();
   var confirmPassword = $('#signUp-confirmPassword').val();
 
@@ -238,6 +239,7 @@ function performSignUp() {
                 firstName: firstName,
                 middleName: middleName,
                 lastName: lastName,
+                studentNumber: studentNumber,
                 userType: 'viewer'
             });
           }
