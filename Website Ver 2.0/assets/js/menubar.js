@@ -214,7 +214,7 @@ function getData(data)
   // try to find a way to pre-load before modal opens?
   var colleges = data.val();
   var keys = Object.keys(colleges);
-  var selectCollege = document.getElementById('selectCollege');
+  var selectCollege = document.getElementById('signUp-college');
   selectCollege.setAttribute("onChange", "selectCollegeOption(this)");
   selectCollege.innerHTML = "";
 
@@ -228,7 +228,7 @@ function getData(data)
   }
 
   var keys2 = Object.keys(colleges[keys[0]]["programs"]);
-  var selectCourse = document.getElementById('selectCourse');
+  var selectCourse = document.getElementById('signUp-course');
   selectCourse.innerHTML = "";
   for(var i = 0; i < keys2.length; i++)
   {
@@ -260,8 +260,7 @@ function selectCollegeOption(x)  // refreshes the courses below
       var db = database.ref('colleges');
       db.on('value', function(data)
       {
-         var keys = Object.keys(data.val());
-        console.log(data);
+        var keys = Object.keys(data.val());
         for(var i = 0; i < keys.length; i++)
         {
           var dbKey = data.val()[keys[i]]["abbr"];
@@ -269,8 +268,7 @@ function selectCollegeOption(x)  // refreshes the courses below
           {
             var courses = data.val()[keys[i]]['programs'];
             var keys2 = Object.keys(courses);
-            console.log(keys2);
-            var selectCourse = document.getElementById('selectCourse');
+            var selectCourse = document.getElementById('signUp-course');
             selectCourse.innerHTML = "";
             for(var i = 0; i < keys2.length; i++)
             {
@@ -296,6 +294,7 @@ function errData(err)
 
 function performSignUp()
 {
+
   var attended = false;
   var college = $('#signUp-college').val();
   var course = $('#signUp-course').val();
@@ -307,7 +306,9 @@ function performSignUp()
   var yearLevel = $('#signUp-yearLevel').val();
   var password = $('#signUp-password').val();
   var confirmPassword = $('#signUp-confirmPassword').val();
-
+  console.log("Here are the college/course information for logging in");
+  console.log(college);
+  console.log(course);
   /*
   var attended: false
   college: ""
