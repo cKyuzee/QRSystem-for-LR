@@ -1,0 +1,124 @@
+{
+  "College of Accountancy": {
+    "programs": {
+      "BS Accountancy": "Bachelor of Science in Accountancy",
+      "BSAIS": "Bachelor of Science in Accounting Information System",
+      "BS Accounting Tech": "Bachelor of Science in Accounting Technology"
+    }
+  },
+  "College of Agriculture": {
+    "programs": {
+      "BSAGRI": "Bachelor of Science in Agriculture"
+    }
+  },
+  "College of Arts and Sciences": {
+    "programs": {
+      "BA Eco": "Bachelor of Arts in Economics",
+      "BA Foreign Service" : "Bachelor of Arts in Foreign Service",
+      "BA Pol Sci": "Bachelor of Arts in Political Science",
+      "AB-Economics": "Bachelor of Arts Major in Economics",
+      "AB-Foreign Service": "Bachelor of Arts Major in Foreign Service",
+      "AB-Political Science": "Bachelor of Arts Major in Political Science",
+      "BPA": "Bachelor of Public Administration",
+      "BS-Biology": "Bachelor of Science Major in Biology",
+      "BS-Psych": "Bachelor of Science Major in Psychology"
+    }
+  },
+  "College of Business Administration": {
+    "programs": {
+      "BSBA-Banking&Finance": "Bachelor of Science in Business Administration Major in Banking and Finance",
+      "BSBA-Management": "Bachelor of Science in Business Administration Major in Management",
+      "BSBA-Marketing": "Bachelor of Science in Business Administration Major in Marketing",
+      "BSBA-FM": "Bachelor of Science in Business Administration Major in Financial Management",
+      "BSBA-HRDM": "Bachelor of Science in Business Administration Major in Human Resource Development Management",
+      "BSBA-LM": "Bachelor of Science in Business Administration Major in Legal Management",
+      "BSBA-MM": "Bachelor of Science in Business Administration Major in Marketing Management",
+      "BS Entrep": "Bachelor of Science in Entrepreneurship",
+      "BSREM": "Bachelor of Science in Real Estate Management"
+    }
+  },
+  "College of Communication": {
+    "programs": {
+      "BA BROAD": "Bachelor of Arts in Broadcasting",
+      "BA Comm": "Bachelor of Arts in Communication",
+      "BA JOURN": "Bachelor of Arts in Journalism",
+      "AB-Mass Comm": "Bachelor of Arts Major in Mass Communication"
+    }
+  },
+  "College of Computer Studies": {
+    "programs": {
+      "BLIS": "Bachelor of Library and Information Science",
+      "BS Comp Sci": "Bachelor of Science in Computer Science",
+      "BSEMC-DATech": "Bachelor of Science in Entertainment and Multimedia Computing with specialization in Digital Animation Technology",
+      "BSEMC-Game Development": "Bachelor of Science in Entertainment and Multimedia Computing with specialization in Game Development",
+      "BSIS": "Bachelor of Science in Information Systems",
+      "BSIT": "Bachelor of Science in Information Technology"
+    }
+  },
+  "College of Criminology": {
+    "programs": {
+      "BS Crim": "Bachelor of Science in Criminology"
+    }
+  },
+  "College of Education": {
+    "programs": {
+      "BEEd-General Ed": "Bachelor of Elementary Education with Specialization in Content Courses",
+      "BEEd-PSE": "Bachelor of Elementary Education with Specialization in Pre-School Education",
+      "BSE-Social Studies": "Bachelor of Secondary Education Major in Social Studies",
+      "BCAEd": "Bachelor of Culture and Arts Education",
+      "BECEd": "Bachelor of Early Childhood Education",
+      "BEEd": "Bachelor of Elementary Education",
+      "BEEd-Special Ed": "Bachelor of Elementary Education with Specialization in Special Education",
+      "BPEd": "Bachelor of Physical Education",
+      "BSE-Biological Science": "Bachelor of Secondary Education Major in Biological Science",
+      "BSE-English": "Bachelor of Secondary Education Major in English",
+      "BSE-Filipino": "Bachelor of Secondary Education Major in Filipino",
+      "BSE-Mathematics": "Bachelor of Secondary Education Major in Mathematics",
+      "BSE-MAPE": "Bachelor of Secondary Education Major in Music, Arts and Physical Education",
+      "BSE-Science": "Bachelor of Secondary Education Major in Sciences",
+      "BSE-TLE": "Bachelor of Secondary Education Major in Technology and Livelihood Education",
+      "BSNEd": "Bachelor of Special Needs Education (Generalist)",
+      "BTLEd-Home Economics": "Bachelor of Technology and Livelihood Education Major in Home Economics",
+      "EDUC UNITS GRAD": "Education Units for Non-Education Graduates"
+    }
+  },
+  "College of Engineering and Architecture": {
+    "programs": {
+      "BSAR": "Bachelor of Science in Architecture",
+      "BS Astronomy": "Bachelor of Science in Astronomy",
+      "BSCE": "Bachelor of Science in Civil Engineering",
+      "BSEE": "Bachelor of Science in Electrical Engineering",
+      "BSECE": "Bachelor of Science in Electronics Engineering",
+      "BSIE": "Bachelor of Science in Industrial Engineering",
+      "BSME": "Bachelor of Science in Mechanical Engineering"
+    }
+  },
+  "College of Medical Technology": {
+    "programs": {
+      "BS Med Tech": "Bachelor of Science in Medical Technology"
+    }
+  },
+  "College of Music":{
+    "programs": {
+      "BM Choral Conducting": "Bachelor of Music in Choral Conducting",
+      "BM Music Education": "Bachelor of Music in Music Education",
+      "BM-Piano": "Bachelor of Music in Piano",
+      "BM Voice": "Bachelor of Music in Voice"
+    }
+  },
+  "College of Nursing": {
+    "programs": {
+      "BS Nursing": "Bachelor of Science in Nursing"
+    }
+  },
+  "College of Physical Therapy": {
+    "programs": {
+      "BSPT": "Bachelor of Science in Physical Therapy"
+    }
+  },
+  "College of Respiratory Therapy": {
+    "programs": {
+      "BSRT": "Bachelor of Science in Respiratory Therapy"
+    }
+  }
+}
