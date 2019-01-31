@@ -306,13 +306,6 @@ jQuery(document).ready(function($) {
 		})
 	}
 	windowScrolled();
-
-  $('#btnRegister').click(function() {
-    $('#modal-register').modal().show();
-  });
-  $('#btnRegister2').click(function() {
-    $('#modal-register').modal().show();
-  });
   $('#btnGetQR').click(function() {
     $('#modal-qrcode').modal().show();
   });
