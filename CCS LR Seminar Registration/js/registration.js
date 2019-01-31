@@ -58,16 +58,17 @@ jQuery(document).ready(function($) {
   });
 
   function verifyInputs(type) {
-    let firstName = $('#register-firstName').val();
-    let middleName = $('#register-middleName').val();
-    let lastName = $('#register-lastName').val();
-    let suffix = $('#register-suffix').val();
-    let email = $('#register-email').val();
+    let firstName = $.trim($('#register-firstName').val());
+    let middleName = $.trim($('#register-middleName').val());
+    let lastName = $.trim($('#register-lastName').val());
+    let suffix = $.trim($('#register-suffix').val());
+    let email = $.trim($('#register-email').val());
+    let dateTime = getDateTime();
     let userKey = "";
 
     if (firstName && middleName && lastName && email && verifyAdditionalInputs(type)) {
       if(type === "NEU Student") {
-        userKey = app_firebase.database().ref('users/'+type).push({
+        userKey = app_firebase.database().ref('users').push({
           attended: false,
           college: $('#select-studentCollege option:selected').text(),
           program: $('#select-studentProgram option:selected').text(),
@@ -78,11 +79,20 @@ jQuery(document).ready(function($) {
             lastName: lastName,
             suffix: suffix
           },
-          studentNumber: $('#register-studentNumber').val()
+          studentNumber: $.trim($('#register-studentNumber').val()),
+          type:type,
+          registeredTimestamp: {
+            date: dateTime[0],
+            time: dateTime[1]
+          },
+          attendedTimestamp: {
+            date:"",
+            time:""
+          }
         }).getKey();
       }
       else if(type === "NEU Alumni") {
-        userKey = app_firebase.database().ref('users/'+type).push({
+        userKey = app_firebase.database().ref('users').push({
           attended: false,
           batch: $('#select-alumniBatch option:selected').text(),
           email: email,
@@ -91,11 +101,20 @@ jQuery(document).ready(function($) {
             middleName: middleName,
             lastName: lastName,
             suffix: suffix
+          },
+          type: type,
+          registeredTimestamp: {
+            date: dateTime[0],
+            time: dateTime[1]
+          },
+          attendedTimestamp: {
+            date:"",
+            time:""
           }
         }).getKey();
       }
       else{
-        userKey = app_firebase.database().ref('users/'+type).push({
+        userKey = app_firebase.database().ref('users').push({
           attended: false,
           college: $('#select-facultyCollege option:selected').text(),
           email: email,
@@ -104,6 +123,15 @@ jQuery(document).ready(function($) {
             middleName: middleName,
             lastName: lastName,
             suffix: suffix
+          },
+          type:type,
+          registeredTimestamp: {
+            date: dateTime[0],
+            time: dateTime[1]
+          },
+          attendedTimestamp: {
+            date:"",
+            time:""
           }
         }).getKey();
       }
@@ -157,5 +185,36 @@ jQuery(document).ready(function($) {
         }));
       })
     });
+  }
+
+  function getDateTime() {
+    var now = new Date();
+
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var day = now.getDate();
+
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+    var second = now.getSeconds();
+
+    if (month.toString().length == 1) {
+      month = '0' + month;
+    }
+    if (day.toString().length == 1) {
+      day = '0' + day;
+    }
+    if (hour.toString().length == 1) {
+      hour = '0' + hour;
+    }
+    if (minute.toString().length == 1) {
+      minute = '0' + minute;
+    }
+    if (second.toString().length == 1) {
+      second = '0' + second;
+    }
+
+    var dateTime = year + '-' + month + '-' + day + '*' + hour + ':' + minute + ':' + second;
+    return dateTime.split('*');
   }
 });
