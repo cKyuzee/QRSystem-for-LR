@@ -25,6 +25,9 @@
 
   <link rel="stylesheet" href="css/style.css">
 
+  <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-database.js"></script>
 </head>
 
 <body>
@@ -315,20 +318,25 @@
             <div style="text-align:center;">
               <div class="row modal-bodyRow">
                 <div class="col-md-12 modal-bodyRow">
-                  <input class="form-control" type="text" id="signUp-firstName" placeholder="Student Number" required="">
+                  <input class="form-control" type="text" id="request-studentNumber" placeholder="Student Number" required="">
                 </div>
               </div>
               OR
               <div class="row modal-bodyRow">
                 <div class="col-md-12 modal-bodyRow">
-                  <input class="form-control" type="text" id="signUp-middleName" placeholder="Email Address">
+                  <input class="form-control" type="text" id="request-emailAddress" placeholder="Email Address">
+                </div>
+              </div>
+              <div class="row modal-bodyRow">
+                <div class="col-md-12 modal-bodyRow">
+                  <b class="requesterror" id="requesterror">Unrecognized E-mail/Student Number</b>
                 </div>
               </div>
             </div>
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Request</button>
+              <button type="button" class="btn btn-primary" id="requestQR">Request</button>
             </div>
           </div>
         </div>
@@ -336,6 +344,38 @@
     </div>
   </div>
 
+
+<!-- actual QR Code -->
+  <div class="modal fade" role="dialog" tabindex="-1" id="modal-showQRcode">
+    <div class="modal-dialog align-center" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Here is your QR code</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button></div>
+        <div class="modal-body">
+          <div>
+            <div class="row modal-bodyRow">
+              <div class="col-md-12 modal-bodyRow">
+                <p>Please have a copy of this QR Code. It's your official ticket to enter the venue. </p>
+                <div id=qrInformationHolder>
+                  <div id="qrcode"></div>
+                  <h5 id="txtQRCode"></h5>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="js/firebase.js"></script>
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-migrate-3.0.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>
@@ -347,6 +387,7 @@
   <script src="js/jquery.magnific-popup.min.js"></script>
   <script src="js/bootstrap-datepicker.min.js"></script>
   <script src="js/aos.js"></script>
+  <script type="text/javascript" src="js/qrcode.js"></script>
 
 
   <script src="js/mediaelement-and-player.min.js"></script>

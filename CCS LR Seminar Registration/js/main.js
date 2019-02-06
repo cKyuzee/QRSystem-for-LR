@@ -4,8 +4,86 @@
  	once: false
  });
 
+
 jQuery(document).ready(function($) {
 	"use strict";
+
+  let qrcode = new QRCode(document.getElementById("qrcode"), {
+    width: 200,
+    height: 200
+  });
+
+  $('#requestQR').click(function()
+  {
+    verifyRequest();
+
+  });
+
+  function verifyRequest()
+  {
+    // check credentials
+    var studnum = $('#request-studentNumber').val();
+    var email = $('#request-emailAddress').val();
+
+    if(studnum || email)
+    {
+      var database = app_firebase.database();
+      var db = database.ref('users');
+      db.on('value', verf, errData);
+    }
+
+  }
+
+  function verf(data)
+  {
+    var verified = false;
+    var users = data.val();
+    var keys = Object.keys(users);
+    var x = document.getElementById('request-emailAddress').value;
+    var y = document.getElementById('request-studentNumber').value;
+    var userKey = "";
+    for(var i = 0; i < keys.length; i++)  // gets college names initial populate of select
+    {
+      var option = keys[i];
+      if(users[keys[i]]["email"] == x)
+      {
+        console.log("matchdog");
+        verified = true;
+        userKey = keys[i];
+        $('#modal-qrcode').modal().show();
+        g.style.visibility = "hidden";
+        break;
+      }
+      else if (users[keys[i]]["studentNumber"] == y)
+      {
+        console.log("sumdog");
+        verified = true;
+        userKey = keys[i];
+        $('#modal-qrcode').modal().show();
+        g.style.visibility = "hidden";
+        break;
+      }
+      else // all entries wrong
+      {
+        console.log("wrong");
+        var g = document.getElementById("requesterror");
+        g.style.visibility = "visible";
+      }
+    }
+    if(verified)
+    {
+      userKey =
+      qrcode.makeCode(userKey);
+      $('#txtQRCode').html(userKey);
+      $('#modal-showQRcode').modal().show();
+    }
+  }
+
+  function errData(error)
+  {
+    console.log("Error found");
+    console.log(error);
+  }
 
 	var siteMenuClone = function() {
 		$('.js-clone-nav').each(function() {
