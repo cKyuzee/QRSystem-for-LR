@@ -1503,3 +1503,15 @@ b.requesterror
   color: red;
   visibility: hidden;
 }
+
+div#section-space {
+  padding-bottom: 0;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+div#div-data-privacy-consent{
+  margin-top: 30px;
+}
