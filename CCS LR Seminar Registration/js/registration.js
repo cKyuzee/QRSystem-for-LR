@@ -34,13 +34,7 @@ jQuery(document).ready(function($) {
   });
 
   $('#btnRegisterSubmit').click(function() {
-    // $('#modal-showQRcode').modal().show();
     verifyInputs($('#select-delegateType option:selected').text());
-
-    // if successfully registered, present qr code :
-    // let value = "League of Researchers";
-    // qrcode.makeCode(value);
-    // $('#txtQRCode').html(value);
   });
 
   $('#select-studentCollege').change(function (){
@@ -66,7 +60,7 @@ jQuery(document).ready(function($) {
     let dateTime = getDateTime();
     let userKey = "";
 
-    if (firstName && middleName && lastName && email && verifyAdditionalInputs(type)) {
+    if (firstName && middleName && lastName && email && verifyAdditionalInputs(type) && $('#cbDataPrivacyConsent').is(':checked')) {
       if(type === "NEU Student") {
         userKey = app_firebase.database().ref('users').push({
           attended: false,
@@ -141,6 +135,9 @@ jQuery(document).ready(function($) {
         $('#txtQRCode').html(userKey);
         $('#modal-showQRcode').modal().show();
       }
+    }
+    else {
+      alert('Invalid');
     }
   }
 
