@@ -55,7 +55,7 @@
                       <li><a href="speakers.html">Speakers</a></li>
                       <li><a href="venue.html">Venue</a></li>
                       <li><a href="about.html">About</a></li>
-                      <li><a href="contact.html">Contact</a></li>
+
                     </ul>
                   </div>
                 </nav>
@@ -74,7 +74,7 @@
         </div>
       </div>
     </div>
-    <div class="site-section bg-light">
+    <div class="site-section bg-light" id="register-form">
       <div class="container">
         <div class="row">
           <div class="col-md-12 col-lg-7 mb-5">
@@ -209,6 +209,7 @@
 
               <div class="row form-group">
                 <div class="col-md-12">
+                  <p id="signUp-errorMessage" style="display:none"></p>
                   <button id="btnRegisterSubmit" class="btn btn-primary px-4 py-3 text-uppercase">Submit</button>
                 </div>
               </div>
@@ -257,9 +258,10 @@
               <div class="col-md-12">
                 <h3 class="footer-heading mb-4 text-white">Quick Menu</h3>
                 <ul class="list-unstyled">
-                  <li><a href="about.html">About</a></li>
+                  <li><a href="index.html">Home</a></li>
+                  <li><a href="speakers.html">About</a></li>
                   <li><a href="venue.html">Venue</a></li>
-                  <li><a href="contact.html">Contact</a></li>
+                  <li><a href="about.html">About</a></li>
                 </ul>
               </div>
             </div>
@@ -292,13 +294,12 @@
                 <p>Please have a copy of this QR Code. It's your official ticket to enter the venue. </p>
                 <div id=qrInformationHolder>
                   <div id="qrcode"></div>
-                  <h5 id="txtQRCode"></h5>
+                  <br>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Download</button>
             </div>
           </div>
         </div>
@@ -308,6 +309,7 @@
   <script type="text/javascript" src="js/firebase.js"></script>
   <script type="text/javascript" src="js/jquery.min.js"></script>
   <script type="text/javascript" src="js/qrcode.js"></script>
+  <script type="text/javascript" src="js/qrcode.min.js"></script>
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-migrate-3.0.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>

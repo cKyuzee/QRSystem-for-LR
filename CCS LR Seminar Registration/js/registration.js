@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
-   performFillSelectCollege();
-   performFillDefaultSelectProgram();
+  performFillSelectCollege();
+  performFillDefaultSelectProgram();
 
   let qrcode = new QRCode(document.getElementById("qrcode"), {
     width: 200,
@@ -37,12 +37,11 @@ jQuery(document).ready(function($) {
     verifyInputs($('#select-delegateType option:selected').text());
   });
 
-  $('#select-studentCollege').change(function (){
+  $('#select-studentCollege').change(function() {
     $('#select-studentProgram').empty();
-
     let college = $('#select-studentCollege option:selected').text();
-    app_firebase.database().ref('colleges/'+college+"/programs").on('value', programs => {
-      programs.forEach( program => {
+    app_firebase.database().ref('colleges/' + college + "/programs").on('value', programs => {
+      programs.forEach(program => {
         $('#select-studentProgram').append($('<option>', {
           value: program.key,
           text: program.val()
@@ -51,20 +50,20 @@ jQuery(document).ready(function($) {
     });
   });
 
-  function checkForNumbers(input){
-    if(!/^[a-zA-Z]*$/g.test(input)){
-      return true         //true means there is a number
-    }
-    else {
+  function checkForNumbers(input, isSuffix) {
+    if (!/^[a-zA-Z ]*$/g.test(input) && !isSuffix) {
+      return true //true means there is a number
+    } else if (!/^[a-zA-Z ]*$/g.test(input) && isSuffix && input.length > 0) {
+      return true
+    } else {
       return false
     }
   }
 
-  function checkForLetters(input){
-    if(!/^[0-9\-]*$/g.test(input)){
-      return true         //true means there is a letter
-    }
-    else {
+  function checkForLetters(input) {
+    if (!/^[0-9\-+]*$/g.test(input)) {
+      return true //true means there is a letter
+    } else {
       return false
     }
   }
@@ -72,7 +71,7 @@ jQuery(document).ready(function($) {
   function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
-}
+  }
 
   function verifyInputs(type) {
     let firstName = $.trim($('#register-firstName').val());
@@ -83,46 +82,42 @@ jQuery(document).ready(function($) {
     let dateTime = getDateTime();
     let userKey = "";
 
-    if ($('#cbDataPrivacyConsent').is(':checked')) {
+    if (firstName && middleName && lastName && email && verifyAdditionalInputs(type)) {
+      if ($('#cbDataPrivacyConsent').is(':checked')) {
 
-      if (firstName && middleName && lastName && email && verifyAdditionalInputs(type)) {
+        //check for letters in student number
+        if (checkForLetters($.trim($('#register-studentNumber').val()))) {
+          $('#signUp-errorMessage')
+            .text('Invalid Student Number.')
+            .show(100);
+        } else {
 
-        //validate email Information
-        if (!validateEmail(email)) {
-          alert ('Incorrect Email format');
-        }
-        else{
+          //check for numerals in the Names
+          if (checkForNumbers(firstName, false) || checkForNumbers(middleName, false) || checkForNumbers(lastName, false) || checkForNumbers(suffix, true)) {
+            checkForNumbers(firstName, false) ?
+              $('#register-firstName').css('border-color', 'red') :
+              $('#register-firstName').css('border-color', '');
 
-          //check for letters in student number
-          if (checkForLetters($.trim($('#register-studentNumber').val()))) {
-            alert ('Incorrect Student Number format');
+            checkForNumbers(middleName, false) ?
+              $('#register-middleName').css('border-color', 'red') :
+              $('#register-middleName').css('border-color', '');
+
+            checkForNumbers(lastName, false) ?
+              $('#register-lastName').css('border-color', 'red') :
+              $('#register-lastName').css('border-color', '');
+
+            checkForNumbers(suffix, true) ?
+              $('#register-suffix').css('border-color', 'red') :
+              $('#register-suffix').css('border-color', '');
+
+            alert('Numbers are not allowed in the Name fields.');
           }
+          //end check
           else {
 
-            //check for numerals in the Names
-            if (checkForNumbers(firstName) || checkForNumbers(middleName) || checkForNumbers(lastName) || checkForNumbers(suffix)) {
-              checkForNumbers(firstName)
-              ? $('#register-firstName').css('border-color', 'red')
-              : $('#register-firstName').css('border-color', '');
+            app_firebase.auth().createUserWithEmailAndPassword(email, 'default').then(function(user) {
 
-              checkForNumbers(middleName)
-              ? $('#register-middleName').css('border-color', 'red')
-              : $('#register-middleName').css('border-color', '');
-
-              checkForNumbers(lastName)
-              ? $('#register-lastName').css('border-color', 'red')
-              : $('#register-lastName').css('border-color', '');
-
-              checkForNumbers(suffix)
-              ? $('#register-suffix').css('border-color', 'red')
-              : $('#register-suffix').css('border-color', '');
-
-              alert('Numbers are not allowed in the Name fields.');
-            }
-            //end check
-            else {
-
-              if(type === "NEU Student") {
+              if (type === "NEU Student") {
                 userKey = app_firebase.database().ref('users').push({
                   attended: false,
                   college: $('#select-studentCollege option:selected').text(),
@@ -135,18 +130,17 @@ jQuery(document).ready(function($) {
                     suffix: suffix
                   },
                   studentNumber: $.trim($('#register-studentNumber').val()),
-                  type:type,
+                  type: type,
                   registeredTimestamp: {
                     date: dateTime[0],
                     time: dateTime[1]
                   },
                   attendedTimestamp: {
-                    date:"",
-                    time:""
+                    date: "",
+                    time: ""
                   }
                 }).getKey();
-              }
-              else if(type === "NEU Alumni") {
+              } else if (type === "NEU Alumni") {
                 userKey = app_firebase.database().ref('users').push({
                   attended: false,
                   batch: $('#select-alumniBatch option:selected').text(),
@@ -163,12 +157,11 @@ jQuery(document).ready(function($) {
                     time: dateTime[1]
                   },
                   attendedTimestamp: {
-                    date:"",
-                    time:""
+                    date: "",
+                    time: ""
                   }
                 }).getKey();
-              }
-              else{
+              } else {
                 userKey = app_firebase.database().ref('users').push({
                   attended: false,
                   college: $('#select-facultyCollege option:selected').text(),
@@ -179,33 +172,55 @@ jQuery(document).ready(function($) {
                     lastName: lastName,
                     suffix: suffix
                   },
-                  type:type,
+                  type: type,
                   registeredTimestamp: {
                     date: dateTime[0],
                     time: dateTime[1]
                   },
                   attendedTimestamp: {
-                    date:"",
-                    time:""
+                    date: "",
+                    time: ""
                   }
                 }).getKey();
               }
-
-              if(userKey) {
+              //clears all entries
+              $('#register-form :input')
+                .each(function() {
+                  $(this)
+                    .css('border-color', '')
+                    .val("");
+                });
+              if (userKey) {
                 qrcode.makeCode(userKey);
-                $('#txtQRCode').html(userKey);
                 $('#modal-showQRcode').modal().show();
               }
-            }
+            }, function(error) {
+              $('#signUp-errorMessage')
+                .text(error.message)
+                .show(100);
+            });
           }
         }
+
+      } else {
+        $('#signUp-errorMessage')
+          .text('Please check the Data Privacy Consent agreement.')
+          .show(100);
       }
-      else {
-        alert('Please fill all required fields.');
-      }
-    }
-    else {
-      alert('Please check the Data Privacy Consent agreement.')
+    } else {
+      $('#signUp-errorMessage')
+        .text('Please fill all required fields.')
+        .show(100);
+
+      $('#register-form :input')
+        .not("#register-suffix")
+        .each(function() {
+          let value = $(this).val();
+          if (value)
+            $(this).css('border-color', '');
+          else
+            $(this).css('border-color', 'red');
+        });
     }
   }
 
@@ -243,7 +258,7 @@ jQuery(document).ready(function($) {
 
   function performFillDefaultSelectProgram() {
     app_firebase.database().ref('colleges/College of Accountancy/programs').on('value', programs => {
-      programs.forEach( program => {
+      programs.forEach(program => {
         $('#select-studentProgram').append($('<option>', {
           value: program.key,
           text: program.val()
@@ -251,8 +266,6 @@ jQuery(document).ready(function($) {
       })
     });
   }
-
-
 
   function getDateTime() {
     var now = new Date();
