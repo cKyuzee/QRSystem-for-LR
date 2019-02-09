@@ -51,6 +51,29 @@ jQuery(document).ready(function($) {
     });
   });
 
+  function checkForNumbers(input){
+    if(!/^[a-zA-Z]*$/g.test(input)){
+      return true         //true means there is a number
+    }
+    else {
+      return false
+    }
+  }
+
+  function checkForLetters(input){
+    if(!/^[0-9\-]*$/g.test(input)){
+      return true         //true means there is a letter
+    }
+    else {
+      return false
+    }
+  }
+
+  function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
   function verifyInputs(type) {
     let firstName = $.trim($('#register-firstName').val());
     let middleName = $.trim($('#register-middleName').val());
@@ -60,84 +83,129 @@ jQuery(document).ready(function($) {
     let dateTime = getDateTime();
     let userKey = "";
 
-    if (firstName && middleName && lastName && email && verifyAdditionalInputs(type) && $('#cbDataPrivacyConsent').is(':checked')) {
-      if(type === "NEU Student") {
-        userKey = app_firebase.database().ref('users').push({
-          attended: false,
-          college: $('#select-studentCollege option:selected').text(),
-          program: $('#select-studentProgram option:selected').text(),
-          email: email,
-          name: {
-            firstName: firstName,
-            middleName: middleName,
-            lastName: lastName,
-            suffix: suffix
-          },
-          studentNumber: $.trim($('#register-studentNumber').val()),
-          type:type,
-          registeredTimestamp: {
-            date: dateTime[0],
-            time: dateTime[1]
-          },
-          attendedTimestamp: {
-            date:"",
-            time:""
-          }
-        }).getKey();
-      }
-      else if(type === "NEU Alumni") {
-        userKey = app_firebase.database().ref('users').push({
-          attended: false,
-          batch: $('#select-alumniBatch option:selected').text(),
-          email: email,
-          name: {
-            firstName: firstName,
-            middleName: middleName,
-            lastName: lastName,
-            suffix: suffix
-          },
-          type: type,
-          registeredTimestamp: {
-            date: dateTime[0],
-            time: dateTime[1]
-          },
-          attendedTimestamp: {
-            date:"",
-            time:""
-          }
-        }).getKey();
-      }
-      else{
-        userKey = app_firebase.database().ref('users').push({
-          attended: false,
-          college: $('#select-facultyCollege option:selected').text(),
-          email: email,
-          name: {
-            firstName: firstName,
-            middleName: middleName,
-            lastName: lastName,
-            suffix: suffix
-          },
-          type:type,
-          registeredTimestamp: {
-            date: dateTime[0],
-            time: dateTime[1]
-          },
-          attendedTimestamp: {
-            date:"",
-            time:""
-          }
-        }).getKey();
-      }
+    if ($('#cbDataPrivacyConsent').is(':checked')) {
 
-      if(userKey) {
-        qrcode.makeCode(userKey);
-        $('#txtQRCode').html(userKey);
-        $('#modal-showQRcode').modal().show();
+      if (firstName && middleName && lastName && email && verifyAdditionalInputs(type)) {
+
+        //validate email Information
+        if (!validateEmail(email)) {
+          alert ('Incorrect Email format');
+        }
+        else{
+
+          //check for letters in student number
+          if (checkForLetters($.trim($('#register-studentNumber').val()))) {
+            alert ('Incorrect Student Number format');
+          }
+          else {
+
+            //check for numerals in the Names
+            if (checkForNumbers(firstName) || checkForNumbers(middleName) || checkForNumbers(lastName) || checkForNumbers(suffix)) {
+              checkForNumbers(firstName)
+              ? $('#register-firstName').css('border-color', 'red')
+              : $('#register-firstName').css('border-color', '');
+
+              checkForNumbers(middleName)
+              ? $('#register-middleName').css('border-color', 'red')
+              : $('#register-middleName').css('border-color', '');
+
+              checkForNumbers(lastName)
+              ? $('#register-lastName').css('border-color', 'red')
+              : $('#register-lastName').css('border-color', '');
+
+              checkForNumbers(suffix)
+              ? $('#register-suffix').css('border-color', 'red')
+              : $('#register-suffix').css('border-color', '');
+
+              alert('Numbers are not allowed in the Name fields.');
+            }
+            //end check
+            else {
+
+              if(type === "NEU Student") {
+                userKey = app_firebase.database().ref('users').push({
+                  attended: false,
+                  college: $('#select-studentCollege option:selected').text(),
+                  program: $('#select-studentProgram option:selected').text(),
+                  email: email,
+                  name: {
+                    firstName: firstName,
+                    middleName: middleName,
+                    lastName: lastName,
+                    suffix: suffix
+                  },
+                  studentNumber: $.trim($('#register-studentNumber').val()),
+                  type:type,
+                  registeredTimestamp: {
+                    date: dateTime[0],
+                    time: dateTime[1]
+                  },
+                  attendedTimestamp: {
+                    date:"",
+                    time:""
+                  }
+                }).getKey();
+              }
+              else if(type === "NEU Alumni") {
+                userKey = app_firebase.database().ref('users').push({
+                  attended: false,
+                  batch: $('#select-alumniBatch option:selected').text(),
+                  email: email,
+                  name: {
+                    firstName: firstName,
+                    middleName: middleName,
+                    lastName: lastName,
+                    suffix: suffix
+                  },
+                  type: type,
+                  registeredTimestamp: {
+                    date: dateTime[0],
+                    time: dateTime[1]
+                  },
+                  attendedTimestamp: {
+                    date:"",
+                    time:""
+                  }
+                }).getKey();
+              }
+              else{
+                userKey = app_firebase.database().ref('users').push({
+                  attended: false,
+                  college: $('#select-facultyCollege option:selected').text(),
+                  email: email,
+                  name: {
+                    firstName: firstName,
+                    middleName: middleName,
+                    lastName: lastName,
+                    suffix: suffix
+                  },
+                  type:type,
+                  registeredTimestamp: {
+                    date: dateTime[0],
+                    time: dateTime[1]
+                  },
+                  attendedTimestamp: {
+                    date:"",
+                    time:""
+                  }
+                }).getKey();
+              }
+
+              if(userKey) {
+                qrcode.makeCode(userKey);
+                $('#txtQRCode').html(userKey);
+                $('#modal-showQRcode').modal().show();
+              }
+            }
+          }
+        }
+      }
+      else {
+        alert('Please fill all required fields.');
       }
     }
     else {
-      alert('Invalid');
+      alert('Please check the Data Privacy Consent agreement.')
     }
   }
 
