@@ -85,122 +85,114 @@ jQuery(document).ready(function($) {
     if (firstName && middleName && lastName && email && verifyAdditionalInputs(type)) {
       if ($('#cbDataPrivacyConsent').is(':checked')) {
 
-        //check for letters in student number
-        if (checkForLetters($.trim($('#register-studentNumber').val()))) {
-          $('#signUp-errorMessage')
-            .text('Invalid Student Number.')
-            .show(100);
-        } else {
+        //check for numerals in the Names
+        if (checkForNumbers(firstName, false) || checkForNumbers(middleName, false) || checkForNumbers(lastName, false) || checkForNumbers(suffix, true)) {
+          checkForNumbers(firstName, false) ?
+            $('#register-firstName').css('border-color', 'red') :
+            $('#register-firstName').css('border-color', '');
 
-          //check for numerals in the Names
-          if (checkForNumbers(firstName, false) || checkForNumbers(middleName, false) || checkForNumbers(lastName, false) || checkForNumbers(suffix, true)) {
-            checkForNumbers(firstName, false) ?
-              $('#register-firstName').css('border-color', 'red') :
-              $('#register-firstName').css('border-color', '');
+          checkForNumbers(middleName, false) ?
+            $('#register-middleName').css('border-color', 'red') :
+            $('#register-middleName').css('border-color', '');
 
-            checkForNumbers(middleName, false) ?
-              $('#register-middleName').css('border-color', 'red') :
-              $('#register-middleName').css('border-color', '');
+          checkForNumbers(lastName, false) ?
+            $('#register-lastName').css('border-color', 'red') :
+            $('#register-lastName').css('border-color', '');
 
-            checkForNumbers(lastName, false) ?
-              $('#register-lastName').css('border-color', 'red') :
-              $('#register-lastName').css('border-color', '');
+          checkForNumbers(suffix, true) ?
+            $('#register-suffix').css('border-color', 'red') :
+            $('#register-suffix').css('border-color', '');
 
-            checkForNumbers(suffix, true) ?
-              $('#register-suffix').css('border-color', 'red') :
-              $('#register-suffix').css('border-color', '');
-
-            alert('Numbers are not allowed in the Name fields.');
-          }
-          //end check
-          else {
-
-            app_firebase.auth().createUserWithEmailAndPassword(email, 'default').then(function(user) {
-
-              if (type === "NEU Student") {
-                userKey = app_firebase.database().ref('users').push({
-                  attended: false,
-                  college: $('#select-studentCollege option:selected').text(),
-                  program: $('#select-studentProgram option:selected').text(),
-                  email: email,
-                  name: {
-                    firstName: firstName,
-                    middleName: middleName,
-                    lastName: lastName,
-                    suffix: suffix
-                  },
-                  studentNumber: $.trim($('#register-studentNumber').val()),
-                  type: type,
-                  registeredTimestamp: {
-                    date: dateTime[0],
-                    time: dateTime[1]
-                  },
-                  attendedTimestamp: {
-                    date: "",
-                    time: ""
-                  }
-                }).getKey();
-              } else if (type === "NEU Alumni") {
-                userKey = app_firebase.database().ref('users').push({
-                  attended: false,
-                  batch: $('#select-alumniBatch option:selected').text(),
-                  email: email,
-                  name: {
-                    firstName: firstName,
-                    middleName: middleName,
-                    lastName: lastName,
-                    suffix: suffix
-                  },
-                  type: type,
-                  registeredTimestamp: {
-                    date: dateTime[0],
-                    time: dateTime[1]
-                  },
-                  attendedTimestamp: {
-                    date: "",
-                    time: ""
-                  }
-                }).getKey();
-              } else {
-                userKey = app_firebase.database().ref('users').push({
-                  attended: false,
-                  college: $('#select-facultyCollege option:selected').text(),
-                  email: email,
-                  name: {
-                    firstName: firstName,
-                    middleName: middleName,
-                    lastName: lastName,
-                    suffix: suffix
-                  },
-                  type: type,
-                  registeredTimestamp: {
-                    date: dateTime[0],
-                    time: dateTime[1]
-                  },
-                  attendedTimestamp: {
-                    date: "",
-                    time: ""
-                  }
-                }).getKey();
-              }
-              //clears all entries
-              $('#register-form :input')
-                .each(function() {
-                  $(this)
-                    .css('border-color', '')
-                    .val("");
-                });
-              if (userKey) {
-                qrcode.makeCode(userKey);
-                $('#modal-showQRcode').modal().show();
-              }
-            }, function(error) {
-              $('#signUp-errorMessage')
-                .text(error.message)
-                .show(100);
-            });
-          }
+          alert('Numbers are not allowed in the Name fields.');
         }
+        //end check
+        else {
+
+          app_firebase.auth().createUserWithEmailAndPassword(email, 'default').then(function(user) {
+
+            if (type === "NEU Student") {
+              userKey = app_firebase.database().ref('users').push({
+                attended: false,
+                college: $('#select-studentCollege option:selected').text(),
+                program: $('#select-studentProgram option:selected').text(),
+                email: email,
+                name: {
+                  firstName: firstName,
+                  middleName: middleName,
+                  lastName: lastName,
+                  suffix: suffix
+                },
+                type: type,
+                registeredTimestamp: {
+                  date: dateTime[0],
+                  time: dateTime[1]
+                },
+                attendedTimestamp: {
+                  date: "",
+                  time: ""
+                }
+              }).getKey();
+            } else if (type === "NEU Alumni") {
+              userKey = app_firebase.database().ref('users').push({
+                attended: false,
+                batch: $('#select-alumniBatch option:selected').text(),
+                email: email,
+                name: {
+                  firstName: firstName,
+                  middleName: middleName,
+                  lastName: lastName,
+                  suffix: suffix
+                },
+                type: type,
+                registeredTimestamp: {
+                  date: dateTime[0],
+                  time: dateTime[1]
+                },
+                attendedTimestamp: {
+                  date: "",
+                  time: ""
+                }
+              }).getKey();
+            } else {
+              userKey = app_firebase.database().ref('users').push({
+                attended: false,
+                college: $('#select-facultyCollege option:selected').text(),
+                email: email,
+                name: {
+                  firstName: firstName,
+                  middleName: middleName,
+                  lastName: lastName,
+                  suffix: suffix
+                },
+                type: type,
+                registeredTimestamp: {
+                  date: dateTime[0],
+                  time: dateTime[1]
+                },
+                attendedTimestamp: {
+                  date: "",
+                  time: ""
+                }
+              }).getKey();
+            }
+            //clears all entries
+            $('#register-form :input')
+              .each(function() {
+                $(this)
+                  .css('border-color', '')
+                  .val("");
+              });
+            if (userKey) {
+              qrcode.makeCode(userKey);
+              $('#modal-showQRcode').modal().show();
+            }
+          }, function(error) {
+            $('#signUp-errorMessage')
+              .text(error.message)
+              .show(100);
+          });
+        }
+
 
       } else {
         $('#signUp-errorMessage')
@@ -226,11 +218,10 @@ jQuery(document).ready(function($) {
 
   function verifyAdditionalInputs(type) {
     if (type === "NEU Student") {
-      let studentNumber = $('#register-studentNumber').val();
       let college = $('#select-studentCollege option:selected').text();
       let program = $('#select-studentProgram option:selected').text();
 
-      return (studentNumber && college && program)
+      return (college && program)
     } else if (type === "NEU Alumni") {
       let alumniBatch = $('#select-alumniBatch option:selected').text();
       return (alumniBatch) ? true : false;
