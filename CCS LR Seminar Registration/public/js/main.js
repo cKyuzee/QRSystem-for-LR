@@ -12,28 +12,11 @@
      $("#modal-qrcode").modal('show');
    });
 
-   $("#select-delegateType").change(function() {
-     let value = $('#select-delegateType option:selected').text();
-     switch (value) {
-       case "NEU Student":
-         $("#request-value").attr('placeholder', 'Student Number');
-         break;
-       case "NEU Alumni":
-       case "NEU Faculty":
-         $("#request-value").attr('placeholder', 'Email Address');
-         break;
-       default:
-
-     }
-   });
-  
    $("#btnRequestQR").click(function() {
      let value = $("#request-value").val();
-     let type = $('#select-delegateType option:selected').text();
-     let child = (type === 'NEU Student') ? "studentNumber" : "email";
 
      if (value) {
-       app_firebase.database().ref("users").orderByChild(child).equalTo(value).once("value", users => {
+       app_firebase.database().ref("users").orderByChild('email').equalTo(value).once("value", users => {
          users.forEach(user => {
            console.log(user.key);
            let userKey = qrcode.makeCode(user.key);

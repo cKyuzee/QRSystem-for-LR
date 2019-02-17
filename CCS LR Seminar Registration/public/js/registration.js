@@ -82,6 +82,8 @@ jQuery(document).ready(function($) {
     let dateTime = getDateTime();
     let userKey = "";
 
+    console.log(firstName, middleName, lastName, suffix, email, dateTime, verifyAdditionalInputs(type));
+
     if (firstName && middleName && lastName && email && verifyAdditionalInputs(type)) {
       if ($('#cbDataPrivacyConsent').is(':checked')) {
 
@@ -226,14 +228,15 @@ jQuery(document).ready(function($) {
 
   function verifyAdditionalInputs(type) {
     if (type === "NEU Student") {
-      let studentNumber = $('#register-studentNumber').val();
       let college = $('#select-studentCollege option:selected').text();
       let program = $('#select-studentProgram option:selected').text();
 
-      return (studentNumber && college && program)
+      return (college && program);
+
     } else if (type === "NEU Alumni") {
       let alumniBatch = $('#select-alumniBatch option:selected').text();
       return (alumniBatch) ? true : false;
+
     } else {
       let facultyCollege = $('#select-facultyCollege option:selected').text();
       return (facultyCollege) ? true : false;

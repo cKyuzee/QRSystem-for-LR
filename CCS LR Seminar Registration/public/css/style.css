@@ -2041,3 +2041,18 @@ body {
 #signUp-errorMessage{
   color: red;
 }
+#agenda-2{
+  display: none;
+}
+
+@media only screen and (max-device-width: 360px) {
+  #title-1 {
+    padding-top: 30px;
+  }
+  #agenda {
+    display: none;
+  }
+  #agenda-2{
+    display: block;
+  }
+}
