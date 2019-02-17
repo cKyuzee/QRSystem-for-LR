@@ -186,12 +186,13 @@ jQuery(document).ready(function($) {
                 }).getKey();
               }
               //clears all entries
-              $('#register-form :input')
+              $('#register-form input')
                 .each(function() {
                   $(this)
                     .css('border-color', '')
                     .val("");
                 });
+              $('#cbDataPrivacyConsent').prop("checked", false);
               if (userKey) {
                 qrcode.makeCode(userKey);
                 $('#modal-showQRcode').modal().show();
@@ -300,4 +301,5 @@ jQuery(document).ready(function($) {
     var dateTime = year + '-' + month + '-' + day + '*' + hour + ':' + minute + ':' + second;
     return dateTime.split('*');
   }
+
 });
