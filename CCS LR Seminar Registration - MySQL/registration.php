@@ -286,7 +286,7 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript" src="js/firebase.js"></script>
+
   <script type="text/javascript" src="js/jquery.min.js"></script>
   <script type="text/javascript" src="js/qrcode.js"></script>
   <script type="text/javascript" src="js/qrcode.min.js"></script>

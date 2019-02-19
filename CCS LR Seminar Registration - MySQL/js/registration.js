@@ -40,14 +40,14 @@ jQuery(document).ready(function($) {
   $('#select-studentCollege').change(function() {
     $('#select-studentProgram').empty();
     let college = $('#select-studentCollege option:selected').text();
-    app_firebase.database().ref('colleges/' + college + "/programs").on('value', programs => {
-      programs.forEach(program => {
-        $('#select-studentProgram').append($('<option>', {
-          value: program.key,
-          text: program.val()
-        }));
-      });
-    });
+    // app_firebase.database().ref('colleges/' + college + "/programs").on('value', programs => {
+    //   programs.forEach(program => {
+    //     $('#select-studentProgram').append($('<option>', {
+    //       value: program.key,
+    //       text: program.val()
+    //     }));
+    //   });
+    // });
   });
 
   function checkForNumbers(input, isSuffix) {
@@ -88,10 +88,13 @@ jQuery(document).ready(function($) {
       if ($('#cbDataPrivacyConsent').is(':checked')) {
 
         //check for letters in student number
-        if (checkForLetters($.trim($('#register-studentNumber').val()))) {
-          $('#signUp-errorMessage')
-            .text('Invalid Student Number.')
-            .show(100);
+        // we don't require student numbers anymore
+        // if (checkForLetters($.trim($('#register-studentNumber').val()))) {
+        //   $('#signUp-errorMessage')
+        //     .text('Invalid Student Number.')
+        //     .show(100);
+        if (false) // just a temp block clean up this code at some point
+        {
         } else {
 
           //check for numerals in the Names
@@ -116,7 +119,101 @@ jQuery(document).ready(function($) {
           }
           //end check
           else {
+            
+            // validate email address
+            if(validateEmail(email)) // if it's good
+            {
+              /*
+              
+                Make the app_firebase things below have an ajax php equivalent.
+                use registration_DB.php
 
+              */ 
+              if (type === "NEU Student") {
+                userKey = app_firebase.database().ref('users').push({
+                  attended: false,
+                  college: $('#select-studentCollege option:selected').text(),
+                  program: $('#select-studentProgram option:selected').text(),
+                  email: email,
+                  name: {
+                    firstName: firstName,
+                    middleName: middleName,
+                    lastName: lastName,
+                    suffix: suffix
+                  },
+                  studentNumber: $.trim($('#register-studentNumber').val()),
+                  type: type,
+                  registeredTimestamp: {
+                    date: dateTime[0],
+                    time: dateTime[1]
+                  },
+                  attendedTimestamp: {
+                    date: "",
+                    time: ""
+                  }
+                }).getKey();
+              } else if (type === "NEU Alumni") {
+                userKey = app_firebase.database().ref('users').push({
+                  attended: false,
+                  batch: $('#select-alumniBatch option:selected').text(),
+                  email: email,
+                  name: {
+                    firstName: firstName,
+                    middleName: middleName,
+                    lastName: lastName,
+                    suffix: suffix
+                  },
+                  type: type,
+                  registeredTimestamp: {
+                    date: dateTime[0],
+                    time: dateTime[1]
+                  },
+                  attendedTimestamp: {
+                    date: "",
+                    time: ""
+                  }
+                }).getKey();
+              } else {
+                userKey = app_firebase.database().ref('users').push({
+                  attended: false,
+                  college: $('#select-facultyCollege option:selected').text(),
+                  email: email,
+                  name: {
+                    firstName: firstName,
+                    middleName: middleName,
+                    lastName: lastName,
+                    suffix: suffix
+                  },
+                  type: type,
+                  registeredTimestamp: {
+                    date: dateTime[0],
+                    time: dateTime[1]
+                  },
+                  attendedTimestamp: {
+                    date: "",
+                    time: ""
+                  }
+                }).getKey();
+              }
+              
+              //clears all entries
+              $('#register-form input')
+                .each(function() {
+                  $(this)
+                    .css('border-color', '')
+                    .val("");
+                });
+              $('#cbDataPrivacyConsent').prop("checked", false);
+              if (userKey) {
+                qrcode.makeCode(userKey);
+                $('#modal-showQRcode').modal().show();
+              }
+            }
+            else // if it's bad 
+            {
+              $('#signUp-errorMessage').text("Invalid Email Address").show(100);
+              $('#register-email').css('border-color', 'red');
+            }
             app_firebase.auth().createUserWithEmailAndPassword(email, 'default').then(function(user) {
 
               if (type === "NEU Student") {
@@ -228,25 +325,43 @@ jQuery(document).ready(function($) {
   }
 
   function verifyAdditionalInputs(type) {
-    if (type === "NEU Student") {
-      let college = $('#select-studentCollege option:selected').text();
-      let program = $('#select-studentProgram option:selected').text();
+    return true;
+    // if (type === "NEU Student") {
+    //   let college = $('#select-studentCollege option:selected').text();
+    //   let program = $('#select-studentProgram option:selected').text();
 
-      return (college && program);
+    //   return (college && program);
 
-    } else if (type === "NEU Alumni") {
-      let alumniBatch = $('#select-alumniBatch option:selected').text();
-      return (alumniBatch) ? true : false;
+    // } else if (type === "NEU Alumni") {
+    //   let alumniBatch = $('#select-alumniBatch option:selected').text();
+    //   return (alumniBatch) ? true : false;
 
-    } else {
-      let facultyCollege = $('#select-facultyCollege option:selected').text();
-      return (facultyCollege) ? true : false;
-    }
-    return false;
+    // } else {
+    //   let facultyCollege = $('#select-facultyCollege option:selected').text();
+    //   return (facultyCollege) ? true : false;
+    // }
+    // return false;
   }
 
   function performFillSelectCollege() {
-    app_firebase.database().ref('colleges').on('value', colleges => {
+    // app_firebase.database().ref('colleges').on('value', colleges => {
+    //   colleges.forEach(college => {
+    //     $('#select-studentCollege').append($('<option>', {
+    //       value: college.key,
+    //       text: college.key
+    //     }));
+    //     $('#select-facultyCollege').append($('<option>', {
+    //       value: college.key,
+    //       text: college.key
+    //     }));
+    //   });
+    // });
+    
+
+    $.post("ajax/registration_DB.php", {func:"getColleges"}, function(data)
+    {
+      console.log(data);
+
       colleges.forEach(college => {
         $('#select-studentCollege').append($('<option>', {
           value: college.key,
@@ -257,18 +372,19 @@ jQuery(document).ready(function($) {
           text: college.key
         }));
       });
+
     });
   }
 
   function performFillDefaultSelectProgram() {
-    app_firebase.database().ref('colleges/College of Accountancy/programs').on('value', programs => {
-      programs.forEach(program => {
-        $('#select-studentProgram').append($('<option>', {
-          value: program.key,
-          text: program.val()
-        }));
-      })
-    });
+    // app_firebase.database().ref('colleges/College of Accountancy/programs').on('value', programs => {
+    //   programs.forEach(program => {
+    //     $('#select-studentProgram').append($('<option>', {
+    //       value: program.key,
+    //       text: program.val()
+    //     }));
+    //   })
+    // });
   }
 
   function getDateTime() {
