@@ -91,7 +91,7 @@
                 </div>
                 <div class="row form-group">
                   <div class="col-md-12 mb-3 mb-md-0">
-                    <label class="font-weight-bold" for="register-middleName">Middle Name *</label>
+                    <label class="font-weight-bold" for="register-middleName">Middle Name</label>
                     <input type="text" id="register-middleName" class="form-control">
                   </div>
                 </div>

@@ -16,15 +16,31 @@
      let value = $("#request-value").val();
 
      if (value) {
-       app_firebase.database().ref("users").orderByChild('email').equalTo(value).once("value", users => {
-         users.forEach(user => {
-           console.log(user.key);
-           let userKey = qrcode.makeCode(user.key);
-           $('#txtQRCode').html(userKey);
-           $("#modal-qrcode").modal('hide');
-           $('#modal-showQRcode').modal('show');
-         });
-       });
+      //  app_firebase.database().ref("users").orderByChild('email').equalTo(value).once("value", users => {
+      //    users.forEach(user => {
+      //      console.log(user.key);
+      //      let userKey = qrcode.makeCode(user.key);
+      //      $('#txtQRCode').html(userKey);
+      //      $("#modal-qrcode").modal('hide');
+      //      $('#modal-showQRcode').modal('show');
+      //    });
+      //  });
+      $.post("ajax/registration_DB.php", {func:"getQRCode", email:value}, function(data)
+      {
+        if(data != "0")
+        {
+          console.log("Successfully generated QR Code!");
+          let userKey = qrcode.makeCode(data);
+          $('#txtQRCode').html(userKey);
+          $("#modal-qrcode").modal('hide');
+          $('#modal-showQRcode').modal('show');
+        }
+        else  // error message
+        {
+          alert("Email Address not registered!");
+        }
+        
+      });
      } else {
        //please input
      }
