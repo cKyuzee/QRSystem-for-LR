@@ -73,9 +73,10 @@ jQuery(document).ready(function($) {
     let suffix = $.trim($('#register-suffix').val());
     let email = $.trim($('#register-email').val());
     let dateTime = getDateTime();
-
-    // console.log(firstName, middleName, lastName, suffix, email, dateTime, verifyAdditionalInputs(type));
-
+    let userKey = "";
+     console.log("what the hell you doing loc");
+    console.log(firstName, middleName, lastName, suffix, email, dateTime, verifyAdditionalInputs(type));
+     // verifyAdditionalInputs(type);
     if (firstName && lastName && email && verifyAdditionalInputs(type)) {
       if ($('#cbDataPrivacyConsent').is(':checked')) {
 
@@ -87,8 +88,8 @@ jQuery(document).ready(function($) {
         //     .show(100);
         if (false) // just a temp block clean up this code at some point
         {
-        } 
-        else 
+        }
+        else
         {
 
           //check for numerals in the Names
@@ -114,23 +115,24 @@ jQuery(document).ready(function($) {
           //end check
           else {
             /*
-              
+
                 Make the app_firebase things below have an ajax php equivalent.
                 use registration_DB.php
 
-              */ 
+              */
             // validate email address
             if(validateEmail(email)) // if it's good
             {
-              var noduplicate = false;
+              var duplicate = false;
               // check if email exists
               $.post("ajax/registration_DB.php", {func:'checkDupEmail', email:email}, function(data)
               {
+                console.log(data);
                 if(data == "1")
                 {
                   // throw the error
                   console.log("Duplicated Email Detected");
-                  noduplicate = true;
+                  duplicate = true;
                    $('#signUp-errorMessage')
                     .text('Email address provided is already in use.')
                     .show(100);
@@ -145,11 +147,15 @@ jQuery(document).ready(function($) {
                         $(this).css('border-color', 'red');
                     });
                 }
+                else if(data == 2) // for now we identify this state as good
+                {
+                  duplicate = false;
+                }
               });
-
-              if(noduplicate)
+console.log("userkey");
+              if(!duplicate)
               {
-
+console.log("userke2");
                 if (type === "NEU Student") {
                   // generate a QR Code here.
                   // userKey = app_firebase.database().ref('users').push({
@@ -173,7 +179,8 @@ jQuery(document).ready(function($) {
                   registrant.attendedDate = "";
                   registrant.attendedTime = "";
                   registrant.QRCode = generateQRCode(firstName, lastName, email, registrant.registeredTime);// generate qr code here
-                  var userKey = registrant.QRCode;
+                  userKey = registrant.QRCode;
+                  console.log("userkey");
                   console.log(userKey);
                   // execute that command up in here
                   var encoded_registrant = JSON.stringify(registrant);
@@ -182,11 +189,11 @@ jQuery(document).ready(function($) {
                     console.log(data);
                     if(data.includes("0"))  // we good
                     {
-                        
+
                     }
                   });
-                } 
-                else if (type === "NEU Alumni") 
+                }
+                else if (type === "NEU Alumni")
                 {
                   var registrant = new Object();
                   registrant.attended = false;
@@ -202,19 +209,20 @@ jQuery(document).ready(function($) {
                   registrant.attendedDate = "";
                   registrant.attendedTime = "";
                   registrant.QRCode = generateQRCode(firstName, lastName, email, registrant.registeredTime);// generate qr code here
-                  var userKey = registrant.QRCode;
+                  userKey = registrant.QRCode;
                   // execute that command up in here
                   var encoded_registrant = JSON.stringify(registrant);
                   $.post("ajax/registration_DB.php", {func:'registerUser', registrant:encoded_registrant}, function(data)
                   {
                     console.log(data);
+                    if(data.includes("0"))  // we good
+                    {
+
+                    }
                   });
 
-                  if(data.includes("0"))  // we good
-                  {
-                      
-                  }
-                } 
+
+                }
                 else  // faculty
                 {
                   var registrant = new Object();
@@ -231,20 +239,21 @@ jQuery(document).ready(function($) {
                   registrant.attendedDate = "";
                   registrant.attendedTime = "";
                   registrant.QRCode = generateQRCode(firstName, lastName, email, registrant.registeredTime);// generate qr code here
-                  var userKey = registrant.QRCode;
+                  userKey = registrant.QRCode;
                   // execute that command up in here
                   var encoded_registrant = JSON.stringify(registrant);
                   $.post("ajax/registration_DB.php", {func:'registerUser', registrant:encoded_registrant}, function(data)
                   {
                     console.log(data);
+                    if(data.includes("0"))  // we good
+                    {
+
+                    }
                   });
 
-                  if(data.includes("0"))  // we good
-                  {
-                      
-                  }
+
                 }
-                
+
                 //clears all entries
                 $('#register-form input')
                   .each(function() {
@@ -258,14 +267,14 @@ jQuery(document).ready(function($) {
                   $('#modal-showQRcode').modal().show();
                 }
               }
-              
+
             }
-            else // if it's bad 
+            else // if it's bad
             {
               $('#signUp-errorMessage').text("Invalid Email Address").show(100);
               $('#register-email').css('border-color', 'red');
             }
-            
+
           }
         }
 
@@ -299,7 +308,7 @@ jQuery(document).ready(function($) {
         QR += (Math.random() > 0.5) ? fname.substring(0,1) : fname.substring(1,2);
       else
         QR += fname.substring(0,1);
-      
+
       if(lname.length > 1)
         QR += (Math.random() > 0.5) ? lname.substring(0,1) : lname.substring(1,2);
       else
@@ -312,7 +321,7 @@ jQuery(document).ready(function($) {
 
       QR += dateTime.toString();
 
-      return QR;   
+      return QR;
   }
 
   function verifyAdditionalInputs(type) {
@@ -338,7 +347,7 @@ jQuery(document).ready(function($) {
     $.post("ajax/registration_DB.php", {func:"getColleges"}, function(data)
     {
       var colleges = JSON.parse(data);
-      
+
       for(var key in colleges)
       {
         $('#select-studentCollege').append($('<option>', {

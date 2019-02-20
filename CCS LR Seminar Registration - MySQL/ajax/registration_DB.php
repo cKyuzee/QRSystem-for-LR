@@ -15,7 +15,7 @@ if($func == 'getColleges')
     $query->execute();
 
     $colleges = array();
-    
+
     if($query->rowcount() != 0)
     {
         while($result = $query->fetch(PDO::FETCH_ASSOC))
@@ -48,7 +48,7 @@ else if($func == 'getPrograms')
     $query->execute();
 
     $programs = array();
-    
+
     if($query->rowcount() != 0)
     {
         while($result = $query->fetch(PDO::FETCH_ASSOC))
@@ -66,7 +66,7 @@ else if($func == 'getPrograms')
         echo '0 results';
     }
 
- 
+
 }
 // inputting content into database
 else if($func == 'registerUser')
@@ -76,7 +76,8 @@ else if($func == 'registerUser')
     // select delegate
     if($newuser->type == "NEU Student")
     {
-        // $query = $this->db->prepare("INSERT INTO person VALUES(?,NULL,?,?,0,0,NULL)");
+        // $query = $this->db->prepare("INSERT INTO person VALUES(?,NULL,?,?,0,0,NULL)");\
+        $db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
         echo "Registering Student";
         $query = $db->prepare("INSERT INTO person VALUES(?,?,?,?,?,?,?,?,?,?,NULL,NULL)");
         $query->bindparam(1, $newuser->attended);
@@ -89,8 +90,10 @@ else if($func == 'registerUser')
         $query->bindparam(8, $newuser->QRCode);
         $query->bindparam(9, $newuser->registeredDate);
         $query->bindparam(10, $newuser->registeredTime);
-        $query->execute(); #fingers crossed x 
-
+        print_r($query->errorInfo());
+        $query->execute(); #fingers crossed x
+        print_r($query->errorInfo());
+        echo $newuser->email;
         echo "0";
     }
     else if ($newuser->type == "NEU Alumni")
@@ -107,8 +110,8 @@ else if($func == 'registerUser')
         $query->bindparam(8, $newuser->QRCode);
         $query->bindparam(9, $newuser->registeredDate);
         $query->bindparam(10, $newuser->registeredTime);
-        $query->execute(); #fingers crossed x 
-        
+        $query->execute(); #fingers crossed x
+
         // delegate things
         $dquery = $db->prepare("INSERT INTO delegate VALUES(?,?,NULL,?)");  // college code is null
         $dquery->bindparam(1, $newuser->type);
@@ -131,8 +134,8 @@ else if($func == 'registerUser')
         $query->bindparam(8, $newuser->QRCode);
         $query->bindparam(9, $newuser->registeredDate);
         $query->bindparam(10, $newuser->registeredTime);
-        $query->execute(); #fingers crossed x 
-        
+        $query->execute(); #fingers crossed x
+
         // delegate things
         $dquery = $db->prepare("INSERT INTO delegate VALUES(?,?,?,NULL)");  // batch is null
         $dquery->bindparam(1, $newuser->type);
@@ -162,11 +165,13 @@ else if($func == 'checkDupEmail')
     $query = $db->prepare( 'SELECT QRCode FROM person WHERE Email = ?');
     $query->bindparam(1, $_POST['email']);
     $query->execute();
-    
-    if($query->rowcount() != 0) // it returned with results, not good
+
+    if($query->rowcount() > 0) // it returned with results, not good
     {
         echo "1";
     }
+    else  // worst case scenario could mean empty database
+    {
+      echo "2";
+    }
 }
-
-
