@@ -1,0 +1,112 @@
+CREATE TABLE DelegateType(type VARCHAR(60) NOT NULL PRIMARY KEY);
+
+INSERT INTO DelegateType VALUES ('Faculty');
+INSERT INTO DelegateType VALUES ('Alumni');
+INSERT INTO DelegateType VALUES ('Student');
+
+
+CREATE TABLE CollegeName(college VARCHAR(150) NOT NULL , collegeCode VARCHAR(10) NOT NULL PRIMARY KEY);
+
+INSERT INTO CollegeName VALUES ('College of Accountancy', 'COA');
+INSERT INTO CollegeName VALUES ('College of Agriculture', 'COAgri');
+INSERT INTO CollegeName VALUES ('College of Arts and Sciences', 'CAS');
+INSERT INTO CollegeName VALUES ('College of Business Administration', 'CBA');
+INSERT INTO CollegeName VALUES ('College of Communication', 'COC');
+INSERT INTO CollegeName VALUES ('College of Computer Studies', 'CCS');
+INSERT INTO CollegeName VALUES ('College of Criminology', 'COCrim');
+INSERT INTO CollegeName VALUES ('College of Education', 'COEd');
+INSERT INTO CollegeName VALUES ('College of Engineering and Architecture', 'CEA');
+INSERT INTO CollegeName VALUES ('College of Medical Technology', 'COMedTech');
+INSERT INTO CollegeName VALUES ('College of Music', 'COMus');
+INSERT INTO CollegeName VALUES ('College of Nursing', 'CONrs');
+INSERT INTO CollegeName VALUES ('College of Physical Therapy', 'CPT');
+INSERT INTO CollegeName VALUES ('College of Respiratory Therapy', 'CRT');
+
+
+
+CREATE TABLE Person(attended BOOL, firstName VARCHAR(50) NOT NULL, middleName VARCHAR(50), lastName VARCHAR(50) NOT NULL, suffix VARCHAR(5), Email VARCHAR(70) NOT NULL, type VARCHAR(60) NOT NULL, QRCode VARCHAR(25) NOT NULL, registerdate DATE NOT NULL, registertime TIME NOT NULL, attenddate DATE, attendtime TIME, PRIMARY KEY(Email), FOREIGN KEY (type) REFERENCES DelegateType(type));
+
+
+CREATE TABLE Delegate(type VARCHAR(60) NOT NULL, Email VARCHAR(70) NOT NULL, collegeCode VARCHAR(10), batch VARCHAR(10),FOREIGN KEY (collegeCode) REFERENCES CollegeName(collegeCode), FOREIGN KEY(Email) REFERENCES Person(Email), FOREIGN KEY (type) REFERENCES DelegateType(type));
+
+CREATE TABLE Programs(ProgramID INT NOT NULL, ProgramName VARCHAR(150) NOT NULL, collegeCode VARCHAR(10) NOT NULL, PRIMARY KEY(ProgramID, CollegeCode));
+
+INSERT INTO Programs VALUES (1, 'Bachelor of Science in Accountancy', 'COA');
+INSERT INTO Programs VALUES (2, 'Bachelor of Science in Accounting Technology', 'COA');
+INSERT INTO Programs VALUES (3, 'Bachelor of Science in Accounting Information System', 'COA');
+
+INSERT INTO Programs VALUES (4, 'Bachelor of Science in Agriculture', 'COAgri');
+
+INSERT INTO Programs VALUES (5, 'Bachelor of Arts Major in Economics', 'CAS');
+INSERT INTO Programs VALUES (6, 'Bachelor of Arts Major in Foreign Services','CAS');
+INSERT INTO Programs VALUES (7, 'Bachelor of Arts Major in Political Science','CAS');
+INSERT INTO Programs VALUES (8, 'Bachelor of Arts in Economics','CAS');
+INSERT INTO Programs VALUES (9, 'Bachelor of Arts in Foreign Services','CAS');
+INSERT INTO Programs VALUES (10, 'Bachelor of Arts in Political Science','CAS');
+INSERT INTO Programs VALUES (11, 'Bachelor of Public Administration','CAS');
+INSERT INTO Programs VALUES (12, 'Bachelor of Science Major in Biology','CAS');
+INSERT INTO Programs VALUES (13, 'Bachelor of Science Major in Psychology','CAS');
+
+INSERT INTO Programs VALUES (14, 'Bachelor of Science in Entrepreneurship','CBA');
+INSERT INTO Programs VALUES (15, 'Bachelor of Science in Business Administration Major in Banking and Finance','CBA');
+INSERT INTO Programs VALUES (16, 'Bachelor of Science in Business Administration Major in Financial Management','CBA');
+INSERT INTO Programs VALUES (17, 'Bachelor of Science in Business Administration Major in Human Resource Development Management','CBA');
+INSERT INTO Programs VALUES (18, 'Bachelor of Science in Business Administration Major in Legal Management','CBA');
+INSERT INTO Programs VALUES (19, 'Bachelor of Science in Business Administration Major in Marketing Management','CBA');
+INSERT INTO Programs VALUES (20, 'Bachelor of Science in Business Administration Major in Management','CBA');
+INSERT INTO Programs VALUES (21, 'Bachelor of Science in Business Administration Major in Marketing','CBA');
+INSERT INTO Programs VALUES (22, 'Bachelor of Science in Real Estate Management','CBA');
+
+INSERT INTO Programs VALUES (23, 'Bachelor of Arts Major in Mass Communication', 'COC');
+INSERT INTO Programs VALUES (24, 'Bachelor of Arts in Broadcasting', 'COC');
+INSERT INTO Programs VALUES (25, 'Bachelor of Arts in Communication', 'COC');
+INSERT INTO Programs VALUES (26, 'Bachelor of Arts in Journalism', 'COC');
+
+INSERT INTO Programs VALUES (27, 'Bachelor of Library and Information System', 'CCS');
+INSERT INTO Programs VALUES (28, 'Bachelor of Science in Computer Science', 'CCS');
+INSERT INTO Programs VALUES (29, 'Bachelor of Science in Entertainment and Multimedia Computing with Specialization in Digital Animation Technology', 'CCS');
+INSERT INTO Programs VALUES (30, 'Bachelor of Science in Entertainment and Multimedia Computing with Specialization in Game Development', 'CCS');
+INSERT INTO Programs VALUES (31, 'Bachelor of Science in Information Systems', 'CCS');
+INSERT INTO Programs VALUES (32, 'Bachelor of Science in Information Technology', 'CCS');
+
+INSERT INTO Programs VALUES (33, 'Bachelor of Science in Criminology', 'COCrim');
+
+INSERT INTO Programs VALUES (34, 'Bachelor of Culture and Arts Education','COEd');
+INSERT INTO Programs VALUES (35, 'Bachelor of Early Chilhood Education','COEd');
+INSERT INTO Programs VALUES (36,'Bachelor of Science in Elementary Education','COEd');
+INSERT INTO Programs VALUES (37, 'Bachelor of Science in Elementary Education with Specialization in Content Courses','COEd');
+INSERT INTO Programs VALUES (38, 'Bachelor of Science in Elementary Education with Specialization in Pre-Schoool Education','COEd');
+INSERT INTO Programs VALUES (39, 'Bachelor of Science in Elementary Education with Specialization in Special Education','COEd');
+INSERT INTO Programs VALUES (40, 'Bachelor of Physical Education','COEd');
+INSERT INTO Programs VALUES (41, 'Bachelor of Secondary Education Major in Biological Science','COEd');
+INSERT INTO Programs VALUES (42, 'Bachelor of Secondary Education Major in English','COEd');
+INSERT INTO Programs VALUES (43, 'Bachelor of Secondary Education Major in Filipino','COEd');
+INSERT INTO Programs VALUES (44, 'Bachelor of Secondary Education Major in Music, Arts and Physical Education','COEd');
+INSERT INTO Programs VALUES (45, 'Bachelor of Secondary Education Major in Mathematics','COEd');
+INSERT INTO Programs VALUES (46, 'Bachelor of Secondary Education Major in Sciences','COEd');
+INSERT INTO Programs VALUES (47, 'Bachelor of Secondary Education Major in Social Studies','COEd');
+INSERT INTO Programs VALUES (48, 'Bachelor of Secondary Education Major in Technology and Livelihood Education','COEd');
+INSERT INTO Programs VALUES (49, 'Bachelor of Special Needs Education (Generalist)','COEd');
+INSERT INTO Programs VALUES (50, 'Bachelor of Technology and Livelihood Education Major in Home Economics','COEd');
+INSERT INTO Programs VALUES (51, 'Education Units for Non-Education Graduates','COEd');
+
+INSERT INTO Programs VALUES (52, 'Bachelor of Science in Astronomy', 'CEA');
+INSERT INTO Programs VALUES (53, 'Bachelor of Science in Architechture', 'CEA');
+INSERT INTO Programs VALUES (54, 'Bachelor of Science in Civil Engineering', 'CEA');
+INSERT INTO Programs VALUES (55, 'Bachelor of Science in Electronics Engineering', 'CEA');
+INSERT INTO Programs VALUES (56, 'Bachelor of Science in Electrical Engineering', 'CEA');
+INSERT INTO Programs VALUES (57, 'Bachelor of Science in Industrial Engineering', 'CEA');
+INSERT INTO Programs VALUES (58, 'Bachelor of Science in Mechanical Engineering', 'CEA');
+
+INSERT INTO Programs VALUES (59, 'Bachelor of Science in Medical Technology', 'COMedTech');
+
+INSERT INTO Programs VALUES (60, 'Bachelor of Music in Choral Conducting', 'COMus');
+INSERT INTO Programs VALUES (61, 'Bachelor of Music in Music Education', 'COMus');
+INSERT INTO Programs VALUES (62, 'Bachelor of Music in Voice', 'COMus');
+INSERT INTO Programs VALUES (63, 'Bachelor of Music in Piano', 'COMus');
+
+INSERT INTO Programs VALUES (64, 'Bachelor of Science in Nursing', 'CONrs');
+
+INSERT INTO Programs VALUES (65, 'Bachelor of Science in Physical Therapy', 'CPT');
+
+INSERT INTO Programs VALUES (66, 'Bachelor of Science in Respiratory Therapy', 'CRT');
