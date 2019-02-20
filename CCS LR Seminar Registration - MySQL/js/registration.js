@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
   performFillSelectCollege();
-
+var duplicateGLOBAL = 0;
 
   let qrcode = new QRCode(document.getElementById("qrcode"), {
     width: 200,
@@ -123,7 +123,6 @@ jQuery(document).ready(function($) {
             // validate email address
             if(validateEmail(email)) // if it's good
             {
-              var duplicate = false;
               // check if email exists
               $.post("ajax/registration_DB.php", {func:'checkDupEmail', email:email}, function(data)
               {
@@ -132,7 +131,7 @@ jQuery(document).ready(function($) {
                 {
                   // throw the error
                   console.log("Duplicated Email Detected");
-                  duplicate = true;
+                  duplicateGLOBAL = 0;
                    $('#signUp-errorMessage')
                     .text('Email address provided is already in use.')
                     .show(100);
@@ -147,126 +146,133 @@ jQuery(document).ready(function($) {
                         $(this).css('border-color', 'red');
                     });
                 }
-                else if(data == 2) // for now we identify this state as good
+                else if(data == "2") // for now we identify this state as good
                 {
-                  duplicate = false;
+                  duplicateGLOBAL = -1;
+                  console.log("GLB" + duplicateGLOBAL);
+                }
+
+                console.log("ASK"+duplicateGLOBAL);
+                if(duplicateGLOBAL == -1)
+                {
+                  console.log("successful -1");
+                  if (type === "NEU Student") {
+                    // generate a QR Code here.
+                    // userKey = app_firebase.database().ref('users').push({
+                    //   attended: false,
+                    //   ... snip ...
+                    //     time: ""
+                    //   }
+                    // }).getKey();
+                    var registrant = new Object();
+                    registrant.attended = false;
+                    registrant.college = $('#select-studentCollege option:selected').text();
+                    registrant.program = $('#select-studentProgram option:selected').text();
+                    registrant.email = email;
+                    registrant.firstName = firstName;
+                    registrant.middleName = middleName;
+                    registrant.lastName = lastName;
+                    registrant.suffix = suffix;
+                    registrant.type = type;
+                    registrant.registeredDate = dateTime[0];
+                    registrant.registeredTime = dateTime[1];
+                    registrant.attendedDate = "";
+                    registrant.attendedTime = "";
+                    registrant.QRCode = generateQRCode(firstName, lastName, email, registrant.registeredTime);// generate qr code here
+                    userKey = registrant.QRCode;
+                    console.log("userkey");
+                    console.log(userKey);
+                    // execute that command up in here
+                    var encoded_registrant = JSON.stringify(registrant);
+                    $.post("ajax/registration_DB.php", {func:'registerUser', registrant:encoded_registrant}, function(data)
+                    {
+                      console.log(data);
+                      if(data.includes("0"))  // we good
+                      {
+
+                      }
+                    });
+                  }
+                  else if (type === "NEU Alumni")
+                  {
+                    var registrant = new Object();
+                    registrant.attended = false;
+                    registrant.email = email;
+                    registrant.batch = $('#select-alumniBatch option:selected').text();
+                    registrant.firstName = firstName;
+                    registrant.middleName = middleName;
+                    registrant.lastName = lastName;
+                    registrant.suffix = suffix;
+                    registrant.type = type;
+                    registrant.registeredDate = dateTime[0];
+                    registrant.registeredTime = dateTime[1];
+                    registrant.attendedDate = "";
+                    registrant.attendedTime = "";
+                    registrant.QRCode = generateQRCode(firstName, lastName, email, registrant.registeredTime);// generate qr code here
+                    userKey = registrant.QRCode;
+                    // execute that command up in here
+                    var encoded_registrant = JSON.stringify(registrant);
+                    $.post("ajax/registration_DB.php", {func:'registerUser', registrant:encoded_registrant}, function(data)
+                    {
+                      console.log(data);
+                      if(data.includes("0"))  // we good
+                      {
+
+                      }
+                    });
+
+
+                  }
+                  else  // faculty
+                  {
+                    var registrant = new Object();
+                    registrant.attended = false;
+                    registrant.email = email;
+                    registrant.firstName = firstName;
+                    registrant.middleName = middleName;
+                    registrant.lastName = lastName;
+                    registrant.suffix = suffix;
+                    registrant.collegeCode = $('#select-facultyCollege option:selected').text();
+                    registrant.type = type;
+                    registrant.registeredDate =dateTime[0];
+                    registrant.registeredTime =  dateTime[1];
+                    registrant.attendedDate = "";
+                    registrant.attendedTime = "";
+                    registrant.QRCode = generateQRCode(firstName, lastName, email, registrant.registeredTime);// generate qr code here
+                    userKey = registrant.QRCode;
+                    // execute that command up in here
+                    var encoded_registrant = JSON.stringify(registrant);
+                    $.post("ajax/registration_DB.php", {func:'registerUser', registrant:encoded_registrant}, function(data)
+                    {
+                      console.log(data);
+                      if(data.includes("0"))  // we good
+                      {
+
+                      }
+                    });
+
+
+                  }
+
+                  //clears all entries
+                  $('#register-form input')
+                    .each(function() {
+                      $(this)
+                        .css('border-color', '')
+                        .val("");
+                    });
+                  $('#cbDataPrivacyConsent').prop("checked", false);
+                  console.log("dip glob");
+                  console.log(duplicateGLOBAL);
+                  if (userKey && duplicateGLOBAL == -1) {
+                    qrcode.makeCode(userKey);
+                    $('#modal-showQRcode').modal().show();
+                  }
+
+
                 }
               });
-console.log("userkey");
-              if(!duplicate)
-              {
-console.log("userke2");
-                if (type === "NEU Student") {
-                  // generate a QR Code here.
-                  // userKey = app_firebase.database().ref('users').push({
-                  //   attended: false,
-                  //   ... snip ...
-                  //     time: ""
-                  //   }
-                  // }).getKey();
-                  var registrant = new Object();
-                  registrant.attended = false;
-                  registrant.college = $('#select-studentCollege option:selected').text();
-                  registrant.program = $('#select-studentProgram option:selected').text();
-                  registrant.email = email;
-                  registrant.firstName = firstName;
-                  registrant.middleName = middleName;
-                  registrant.lastName = lastName;
-                  registrant.suffix = suffix;
-                  registrant.type = type;
-                  registrant.registeredDate = dateTime[0];
-                  registrant.registeredTime = dateTime[1];
-                  registrant.attendedDate = "";
-                  registrant.attendedTime = "";
-                  registrant.QRCode = generateQRCode(firstName, lastName, email, registrant.registeredTime);// generate qr code here
-                  userKey = registrant.QRCode;
-                  console.log("userkey");
-                  console.log(userKey);
-                  // execute that command up in here
-                  var encoded_registrant = JSON.stringify(registrant);
-                  $.post("ajax/registration_DB.php", {func:'registerUser', registrant:encoded_registrant}, function(data)
-                  {
-                    console.log(data);
-                    if(data.includes("0"))  // we good
-                    {
 
-                    }
-                  });
-                }
-                else if (type === "NEU Alumni")
-                {
-                  var registrant = new Object();
-                  registrant.attended = false;
-                  registrant.email = email;
-                  registrant.batch = $('#select-alumniBatch option:selected').text();
-                  registrant.firstName = firstName;
-                  registrant.middleName = middleName;
-                  registrant.lastName = lastName;
-                  registrant.suffix = suffix;
-                  registrant.type = type;
-                  registrant.registeredDate = dateTime[0];
-                  registrant.registeredTime = dateTime[1];
-                  registrant.attendedDate = "";
-                  registrant.attendedTime = "";
-                  registrant.QRCode = generateQRCode(firstName, lastName, email, registrant.registeredTime);// generate qr code here
-                  userKey = registrant.QRCode;
-                  // execute that command up in here
-                  var encoded_registrant = JSON.stringify(registrant);
-                  $.post("ajax/registration_DB.php", {func:'registerUser', registrant:encoded_registrant}, function(data)
-                  {
-                    console.log(data);
-                    if(data.includes("0"))  // we good
-                    {
-
-                    }
-                  });
-
-
-                }
-                else  // faculty
-                {
-                  var registrant = new Object();
-                  registrant.attended = false;
-                  registrant.email = email;
-                  registrant.firstName = firstName;
-                  registrant.middleName = middleName;
-                  registrant.lastName = lastName;
-                  registrant.suffix = suffix;
-                  registrant.collegeCode = $('#select-facultyCollege option:selected').text();
-                  registrant.type = type;
-                  registrant.registeredDate =dateTime[0];
-                  registrant.registeredTime =  dateTime[1];
-                  registrant.attendedDate = "";
-                  registrant.attendedTime = "";
-                  registrant.QRCode = generateQRCode(firstName, lastName, email, registrant.registeredTime);// generate qr code here
-                  userKey = registrant.QRCode;
-                  // execute that command up in here
-                  var encoded_registrant = JSON.stringify(registrant);
-                  $.post("ajax/registration_DB.php", {func:'registerUser', registrant:encoded_registrant}, function(data)
-                  {
-                    console.log(data);
-                    if(data.includes("0"))  // we good
-                    {
-
-                    }
-                  });
-
-
-                }
-
-                //clears all entries
-                $('#register-form input')
-                  .each(function() {
-                    $(this)
-                      .css('border-color', '')
-                      .val("");
-                  });
-                $('#cbDataPrivacyConsent').prop("checked", false);
-                if (userKey) {
-                  qrcode.makeCode(userKey);
-                  $('#modal-showQRcode').modal().show();
-                }
-              }
 
             }
             else // if it's bad
