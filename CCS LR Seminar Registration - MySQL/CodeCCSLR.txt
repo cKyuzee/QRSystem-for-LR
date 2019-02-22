@@ -1,8 +1,8 @@
 CREATE TABLE DelegateType(type VARCHAR(60) NOT NULL PRIMARY KEY);
 
-INSERT INTO DelegateType VALUES ('Faculty');
-INSERT INTO DelegateType VALUES ('Alumni');
-INSERT INTO DelegateType VALUES ('Student');
+INSERT INTO DelegateType VALUES ('NEU Faculty');
+INSERT INTO DelegateType VALUES ('NEU Alumni');
+INSERT INTO DelegateType VALUES ('NEU Student');
 
 
 CREATE TABLE CollegeName(college VARCHAR(150) NOT NULL , collegeCode VARCHAR(10) NOT NULL PRIMARY KEY);
